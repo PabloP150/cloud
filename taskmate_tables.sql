@@ -21,7 +21,8 @@
 CREATE TABLE dbo.Users (
     uid 		UNIQUEIDENTIFIER 	NOT NULL PRIMARY KEY,
     username 	VARCHAR(25)			NOT NULL,
-    password 	VARCHAR(60) 		NOT NULL
+    password 	VARCHAR(60) 		NOT NULL,
+	imageUrl VARCHAR(255),
 	CONSTRAINT noDuplicates UNIQUE (username)
 );
 

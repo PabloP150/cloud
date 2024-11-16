@@ -29,7 +29,7 @@ function HomePage() {
       <CssBaseline />
       <Box
         sx={{
-          position: 'fixed', // Fija el fondo para que no se mueva
+          position: 'fixed',
           top: 0,
           left: 0,
           width: '100%',
@@ -42,7 +42,7 @@ function HomePage() {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          zIndex: -1, // Asegura que el fondo esté detrás del contenido
+          zIndex: -1,
         }}
       >
         <Container component="main" maxWidth="md" sx={{ mt: 8 }}>

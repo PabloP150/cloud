@@ -37,12 +37,12 @@ function Login({ onLogin }) {
   const navigate = useNavigate();
   const { setSelectedGroupId, setSelectedGroupName } = useContext(GroupContext);
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
 
-    if (!username || !password) {
-      setError('Por favor, complete todos los campos.');
+    if (!username) {
+      setError('Por favor, complete el campo de nombre de usuario.');
       return;
     }
 
@@ -58,8 +58,11 @@ function Login({ onLogin }) {
       if (response.ok) {
         const data = await response.json();
         const userId = data.uid;
+        const imageUrl = data.imageUrl;
+
+        localStorage.setItem('imageUrl', imageUrl);
         localStorage.setItem('userId', userId);
-        onLogin({ uid: userId, name: username });
+        onLogin({ uid: userId, name: username, imageUrl });
 
         // Obtener los grupos del usuario
         const groupsResponse = await fetch(`http://localhost:9000/api/groups/user-groups?uid=${userId}`);
@@ -107,7 +110,7 @@ function Login({ onLogin }) {
             <Typography variant="body1" align="center" sx={{ mb: 3 }}>
               Welcome to TaskMate
             </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate>
+            <Box component="form" onSubmit={handleLogin} noValidate>
               <TextField
                 margin="normal"
                 required

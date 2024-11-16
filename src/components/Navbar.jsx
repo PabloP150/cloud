@@ -1,4 +1,3 @@
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import {
   AppBar,
   Box,
@@ -6,7 +5,9 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Typography
+  Typography,
+  Avatar,
+  IconButton
 } from '@mui/material';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -78,18 +79,15 @@ const Navbar = ({ user, onLogout }) => {
 
         {user && (
           <Box sx={{ flexGrow: 0 }}>
-            <Button
-              color="inherit"
-              onClick={handleClick}
-              endIcon={<ArrowDropDownIcon />}
-            >
-              {user.name}
-            </Button>
+            <IconButton onClick={handleClick}>
+              <Avatar alt={user.name} src={user.imageUrl} sx={{ width: 40, height: 40 }} />
+            </IconButton>
             <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
+              <MenuItem disabled>{user.name}</MenuItem>
               <MenuItem onClick={() => { handleClose(); onLogout(); }}>Logout</MenuItem>
             </Menu>
           </Box>

@@ -4,13 +4,17 @@ const UserModel = require('./../models/user.model');
 const GroupModel = require('./../models/group.model');
 const UserGroupModel = require('./../models/userGroup.model');
 const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcrypt');
 
 userRoute.post('/', async (req, res) => {
     const uid = uuidv4();
-    const { username, password } = req.body;
+    const { username, password, imageUrl } = req.body;
 
     try {
-        await UserModel.addUser({ uid, username, password });
+        // Encriptar la contraseña
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        await UserModel.addUser({ uid, username, password: hashedPassword, imageUrl });
 
         // Crear un grupo individual para el usuario
         const gid = uuidv4();
@@ -33,7 +37,17 @@ userRoute.post('/login', async (req, res) => {
     const user = await UserModel.getUserByUsername(username);
 
     if (user.length > 0) {
-        res.status(200).json({ message: 'Login successful', uid: user[0].uid });
+        // Verificar la contraseña
+        const isPasswordValid = await bcrypt.compare(password, user[0].password);
+        if (isPasswordValid) {
+            res.status(200).json({ 
+                message: 'Login successful', 
+                uid: user[0].uid, 
+                imageUrl: user[0].imageUrl 
+            });
+        } else {
+            res.status(401).json({ error: 'Invalid credentials' });
+        }
     } else {
         res.status(401).json({ error: 'Invalid credentials' });
     }

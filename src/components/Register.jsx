@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BlobServiceClient } from '@azure/storage-blob';
 import {
   Container,
   TextField,
@@ -7,10 +8,10 @@ import {
   Paper,
   Box,
   CssBaseline,
+  Avatar,
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import bcrypt from 'bcryptjs'; // Importa bcryptjs
 
 const theme = createTheme({
   palette: {
@@ -28,23 +29,64 @@ const theme = createTheme({
 function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    console.log('Archivo seleccionado:', file);
+    if (file) {
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const uploadImageToAzure = async (file) => {
+    const sasToken = 'sp=racwdli&st=2024-11-16T17:11:12Z&se=2024-11-24T01:11:12Z&sv=2022-11-02&sr=c&sig=eQxx4c6%2FHthsNd0Ds6UJfWJstjjFikTWMFjquMupSGU%3D'; // Reemplaza con tu SAS token
+    const containerName = 'taskmatecontainer'; // Nombre de tu contenedor
+    const blobName = `${Date.now()}_${file.name}`;
+    const blobUrl = `https://taskmatestorage1.blob.core.windows.net/${containerName}/${blobName}?${sasToken}`;
+
+    const response = await fetch(blobUrl, {
+        method: 'PUT',
+        headers: {
+            'x-ms-blob-type': 'BlockBlob',
+            'Content-Type': file.type,
+        },
+        body: file,
+    });
+
+    if (!response.ok) {
+        throw new Error('Error al subir la imagen a Azure');
+    }
+
+    return blobUrl; // Devuelve la URL de la imagen subida
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const hashedPassword = await bcrypt.hash(password, 10); // Encripta la contraseña
+      if (!image) {
+        console.error('No se ha seleccionado ninguna imagen.');
+        return;
+      }
+
+      // Subir imagen a Azure
+      const imageUrl = await uploadImageToAzure(image);
+
       const response = await fetch('http://localhost:9000/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password: hashedPassword }), // Envía la contraseña encriptada
+        body: JSON.stringify({ username, password, imageUrl }), // Envía la URL de la imagen
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log(data.message);
+        localStorage.setItem('imageUrl', imageUrl); // Asegúrate de guardar la URL
         navigate('/'); // Redirige a la página de inicio de sesión
       } else {
         const errorData = await response.json();
@@ -100,6 +142,25 @@ function Register() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <input
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="image-upload"
+                type="file"
+                onChange={handleImageChange}
+              />
+              <label htmlFor="image-upload">
+                <Button variant="contained" component="span" sx={{ mt: 2 }}>
+                  Subir Imagen de Perfil
+                </Button>
+              </label>
+              {imagePreview && (
+                <Avatar
+                  alt="Imagen de perfil"
+                  src={imagePreview}
+                  sx={{ width: 56, height: 56, mt: 2 }}
+                />
+              )}
               <Button
                 type="submit"
                 fullWidth

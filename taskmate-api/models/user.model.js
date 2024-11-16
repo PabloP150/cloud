@@ -3,15 +3,16 @@ const execQuery = require('../helpers/execQuery');
 const TYPES = require('tedious').TYPES;
 
 const addUser = (userData) => {
-    const { uid, username, password } = userData;
+    const { uid, username, password, imageUrl } = userData;
     const query = `
-    INSERT INTO [dbo].[Users] (uid, username, password) 
-    VALUES(@uid, @username, @password)
+    INSERT INTO [dbo].[Users] (uid, username, password, imageUrl) 
+    VALUES(@uid, @username, @password, @imageUrl)
     `;
     const params = [
         { name: 'uid', type: TYPES.UniqueIdentifier, value: uid },
         { name: 'username', type: TYPES.VarChar, value: username },
         { name: 'password', type: TYPES.Char, value: password },
+        { name: 'imageUrl', type: TYPES.VarChar, value: imageUrl },
     ];
     return execQuery.execWriteCommand(query, params);
 };
@@ -43,9 +44,16 @@ const getidUser = async (uid) => {
     return result.length > 0 ? result[0] : null;
 };
 
+const updateUserImageUrl = (uid, imageUrl) => {
+    const query = `UPDATE [dbo].[Users] SET imageUrl = @imageUrl WHERE uid = @uid`;
+    const params = [{ name: 'imageUrl', type: TYPES.VarChar, value: imageUrl }, { name: 'uid', type: TYPES.UniqueIdentifier, value: uid }];
+    return execQuery.execWriteCommand(query, params);
+};
+
 module.exports = {
     addUser,
     getUserByUsername,
     getidUser,
     getidUserByUsername,
+    updateUserImageUrl,
 };
