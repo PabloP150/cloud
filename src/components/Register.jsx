@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { BlobServiceClient } from '@azure/storage-blob';
 import {
   Container,
   TextField,
@@ -76,18 +75,29 @@ function Register() {
       // Subir imagen a Azure
       const imageUrl = await uploadImageToAzure(image);
 
+      // Crear el usuario en tu API
       const response = await fetch('http://52.173.30.244:9000/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password, imageUrl, email }), // Envía la URL de la imagen y el correo electrónico
+        body: JSON.stringify({ username, password, imageUrl, email }),
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log(data.message);
-        localStorage.setItem('imageUrl', imageUrl); // Asegúrate de guardar la URL
+        localStorage.setItem('imageUrl', imageUrl);
+
+        // Enviar notificación por correo a la Logic App
+        await fetch('https://prod-29.centralus.logic.azure.com:443/workflows/2afa22ff4acf4761ae1320a831b314c1/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=G87b2mbXEzw_2h7qHjyVwDO3SHJxZYaaV7PDjne5krk', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, email }), // Envía el nombre de usuario y el correo electrónico
+        });
+
         navigate('/'); // Redirige a la página de inicio de sesión
       } else {
         const errorData = await response.json();

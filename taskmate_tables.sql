@@ -1,13 +1,13 @@
---DROP TABLE dbo.UserGroups;
---DROP TABLE dbo.UserTask;
---DROP TABLE dbo.DeleteTask
---DROP TABLE dbo.Complete
---DROP TABLE dbo.Tasks;
---DROP TABLE dbo.UserTask;
---DROP TABLE dbo.Edges;
---DROP TABLE dbo.Nodes;
---DROP TABLE dbo.Groups		
---DROP TABLE dbo.Users;
+DROP TABLE dbo.UserGroups;
+DROP TABLE dbo.UserTask;
+DROP TABLE dbo.DeleteTask
+DROP TABLE dbo.Complete
+DROP TABLE dbo.Tasks;
+DROP TABLE dbo.UserTask;
+DROP TABLE dbo.Edges;
+DROP TABLE dbo.Nodes;
+DROP TABLE dbo.Groups		
+DROP TABLE dbo.Users;
 
 --DROP TRIGGER dbo.UpdateTargetNodePercentage
 
@@ -22,6 +22,7 @@ CREATE TABLE dbo.Users (
     uid 		UNIQUEIDENTIFIER 	NOT NULL PRIMARY KEY,
     username 	VARCHAR(25)			NOT NULL,
     password 	VARCHAR(60) 		NOT NULL,
+	email		VARCHAR(60)			NOT NULL,
 	imageUrl VARCHAR(255),
 	CONSTRAINT noDuplicates UNIQUE (username)
 );
