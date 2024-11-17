@@ -24,7 +24,7 @@ export default function CustomNode({ data, id }) {
     if (data.toggleCompletion) {
       try {
         data.toggleCompletion(id);
-        await fetch(`https://52.173.30.244:9000/api/nodes/${id}/toggleComplete`, {
+        await fetch(`http://52.173.30.244:9000/api/nodes/${id}/toggleComplete`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ export default function CustomNode({ data, id }) {
       }
       setInputValue(inputValue);
       try {
-        await fetch(`https://52.173.30.244:9000/api/nodes/${id}/percentage`, {
+        await fetch(`http://52.173.30.244:9000/api/nodes/${id}/percentage`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

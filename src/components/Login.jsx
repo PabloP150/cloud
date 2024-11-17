@@ -47,7 +47,7 @@ function Login({ onLogin }) {
     }
 
     try {
-      const response = await fetch('https://52.173.30.244:9000/api/users/login', {
+      const response = await fetch('http://52.173.30.244:9000/api/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ function Login({ onLogin }) {
         onLogin({ uid: userId, name: username, imageUrl });
 
         // Obtener los grupos del usuario
-        const groupsResponse = await fetch(`https://52.173.30.244:9000/api/groups/user-groups?uid=${userId}`);
+        const groupsResponse = await fetch(`http://52.173.30.244:9000/api/groups/user-groups?uid=${userId}`);
         if (groupsResponse.ok) {
           const groupsData = await groupsResponse.json();
           if (groupsData.groups && groupsData.groups.length > 0) {

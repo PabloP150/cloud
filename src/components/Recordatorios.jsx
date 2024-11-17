@@ -54,7 +54,7 @@ export default function Recordatorios() {
       return;
     }
     try {
-      const response = await fetch(`https://52.173.30.244:9000/api/tasks?gid=${selectedGroupId}`);
+      const response = await fetch(`http://52.173.30.244:9000/api/tasks?gid=${selectedGroupId}`);
       if (response.ok) {
         const data = await response.json();
         const listasOrganizadas = organizarTareasEnListas(data.data);
@@ -71,7 +71,7 @@ export default function Recordatorios() {
     if (!selectedGroupId) return;
 
     try {
-      const response = await fetch(`https://52.173.30.244:9000/api/completados/${selectedGroupId}`);
+      const response = await fetch(`http://52.173.30.244:9000/api/completados/${selectedGroupId}`);
       if (response.ok) {
         const data = await response.json();
         setCompletados(data.data);
@@ -87,7 +87,7 @@ export default function Recordatorios() {
     if (!selectedGroupId) return;
 
     try {
-      const response = await fetch(`https://52.173.30.244:9000/api/delete/${selectedGroupId}`);
+      const response = await fetch(`http://52.173.30.244:9000/api/delete/${selectedGroupId}`);
       if (response.ok) {
         const data = await response.json();
         setEliminados(data.data);
@@ -171,7 +171,7 @@ export default function Recordatorios() {
     };
 
     try {
-      const response = await fetch('https://52.173.30.244:9000/api/tasks', {
+      const response = await fetch('http://52.173.30.244:9000/api/tasks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -234,13 +234,13 @@ export default function Recordatorios() {
 
     try {
       // Llamar a la API para eliminar la tarea
-      const response = await fetch(`https://52.173.30.244:9000/api/tasks/${recordatorioEliminado.tid}`, {
+      const response = await fetch(`http://52.173.30.244:9000/api/tasks/${recordatorioEliminado.tid}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
         // Llamar a la API para agregar a la lista de eliminados
-        const eliminarResponse = await fetch('https://52.173.30.244:9000/api/delete', {
+        const eliminarResponse = await fetch('http://52.173.30.244:9000/api/delete', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -268,12 +268,12 @@ export default function Recordatorios() {
     const recordatorioCompletado = listaActual.recordatorios[idx];
 
     try {
-      const response = await fetch(`https://52.173.30.244:9000/api/tasks/${recordatorioCompletado.tid}`, {
+      const response = await fetch(`http://52.173.30.244:9000/api/tasks/${recordatorioCompletado.tid}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
-        const completarResponse = await fetch('https://52.173.30.244:9000/api/completados', {
+        const completarResponse = await fetch('http://52.173.30.244:9000/api/completados', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -362,7 +362,7 @@ export default function Recordatorios() {
 
     if (window.confirm(`¿Estás seguro de que deseas eliminar la lista "${nombreLista}" y todas sus tareas?`)) {
       try {
-        const response = await fetch(`https://52.173.30.244:9000/api/tasks/list/${gid}/${encodeURIComponent(nombreLista)}`, {
+        const response = await fetch(`http://52.173.30.244:9000/api/tasks/list/${gid}/${encodeURIComponent(nombreLista)}`, {
           method: 'DELETE',
         });
 
@@ -384,7 +384,7 @@ export default function Recordatorios() {
         return; 
     }
     try {
-      const response = await fetch(`https://52.173.30.244:9000/api/tasks/${recordatorioEditar.tid}`, {
+      const response = await fetch(`http://52.173.30.244:9000/api/tasks/${recordatorioEditar.tid}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -452,7 +452,7 @@ export default function Recordatorios() {
     }
 
     try {
-      await fetch(`https://52.173.30.244:9000/api/delete/${gid}`, {
+      await fetch(`http://52.173.30.244:9000/api/delete/${gid}`, {
         method: 'DELETE',
       });
       setEliminados([]); // Vaciar el estado de eliminados
@@ -469,7 +469,7 @@ export default function Recordatorios() {
     }
 
     try {
-      await fetch(`https://52.173.30.244:9000/api/completados/${gid}`, {
+      await fetch(`http://52.173.30.244:9000/api/completados/${gid}`, {
         method: 'DELETE',
       });
       setCompletados([]); // Vaciar el estado de completados

@@ -44,7 +44,7 @@ function CreateGroup() {
       return;
     }
     try {
-      const response = await fetch('https://52.173.30.244:9000/api/groups/group', {
+      const response = await fetch('http://52.173.30.244:9000/api/groups/group', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

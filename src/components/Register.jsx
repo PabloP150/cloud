@@ -46,7 +46,7 @@ function Register() {
     const sasToken = 'sp=racwdli&st=2024-11-16T17:11:12Z&se=2024-11-24T01:11:12Z&sv=2022-11-02&sr=c&sig=eQxx4c6%2FHthsNd0Ds6UJfWJstjjFikTWMFjquMupSGU%3D'; // Reemplaza con tu SAS token
     const containerName = 'taskmatecontainer'; // Nombre de tu contenedor
     const blobName = `${Date.now()}_${file.name}`;
-    const blobUrl = `https://taskmatestorage1.blob.core.windows.net/${containerName}/${blobName}?${sasToken}`;
+    const blobUrl = `http://taskmatestorage1.blob.core.windows.net/${containerName}/${blobName}?${sasToken}`;
 
     const response = await fetch(blobUrl, {
         method: 'PUT',
@@ -76,7 +76,7 @@ function Register() {
       const imageUrl = await uploadImageToAzure(image);
 
       // Crear el usuario en tu API
-      const response = await fetch('https://52.173.30.244:9000/api/users', {
+      const response = await fetch('http://52.173.30.244:9000/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ function Register() {
         localStorage.setItem('imageUrl', imageUrl);
 
         // Enviar notificación por correo a la Logic App
-        await fetch('https://prod-29.centralus.logic.azure.com:443/workflows/2afa22ff4acf4761ae1320a831b314c1/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=G87b2mbXEzw_2h7qHjyVwDO3SHJxZYaaV7PDjne5krk', {
+        await fetch('http://prod-29.centralus.logic.azure.com:443/workflows/2afa22ff4acf4761ae1320a831b314c1/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=G87b2mbXEzw_2h7qHjyVwDO3SHJxZYaaV7PDjne5krk', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

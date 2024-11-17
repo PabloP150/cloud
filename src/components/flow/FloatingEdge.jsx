@@ -12,7 +12,7 @@ function FloatingEdge({ id, source, target, markerEnd, style }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`https://52.173.30.244:9000/api/edges/${id}`);
+      const response = await fetch(`http://52.173.30.244:9000/api/edges/${id}`);
       const data = await response.json();
       setPrerequisite(data.data[0].prerequisite ? 1 : 0);
       setLabel(data.data[0].prerequisite == 1 ? 'Prerequisite' : 'Progressor');
@@ -42,7 +42,7 @@ function FloatingEdge({ id, source, target, markerEnd, style }) {
     setLabel(prerequisite ? 'Progressor' : 'Prerequisite');
     setPrerequisite(!prerequisite);
     try {
-      await fetch(`https://52.173.30.244:9000/api/edges/${id}`, {
+      await fetch(`http://52.173.30.244:9000/api/edges/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
