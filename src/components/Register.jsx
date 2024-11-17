@@ -76,7 +76,7 @@ function Register() {
       const imageUrl = await uploadImageToAzure(image);
 
       // Crear el usuario en tu API
-      const response = await fetch('http://52.173.30.244:9000/api/users', {
+      const response = await fetch('https://52.173.30.244:9000/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

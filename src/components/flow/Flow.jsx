@@ -45,8 +45,8 @@ const Flow = ({ handleNodeEdit, setSelectedNode }) => {
   useEffect(() => {
     const loadNodesAndEdges = async () => {
       try {
-        const nodesResponse = await fetch(`http://52.173.30.244:9000/api/nodes/group/${selectedGroupId}`);
-        const edgesResponse = await fetch(`http://52.173.30.244:9000/api/edges/group/${selectedGroupId}`);
+        const nodesResponse = await fetch(`https://52.173.30.244:9000/api/nodes/group/${selectedGroupId}`);
+        const edgesResponse = await fetch(`https://52.173.30.244:9000/api/edges/group/${selectedGroupId}`);
 
         if (nodesResponse.ok && edgesResponse.ok) {
           const nodesData = await nodesResponse.json();
@@ -88,7 +88,7 @@ const Flow = ({ handleNodeEdit, setSelectedNode }) => {
   useEffect(() => {
     const getTasks = async () => {
       try {
-        const response = await fetch(`http://52.173.30.244:9000/api/tasks?gid=${selectedGroupId}`);
+        const response = await fetch(`https://52.173.30.244:9000/api/tasks?gid=${selectedGroupId}`);
         if (response.ok) {
           const data = await response.json();
           setTasks(data.data);
@@ -102,7 +102,7 @@ const Flow = ({ handleNodeEdit, setSelectedNode }) => {
 
   const handleImportTask = async (task) => {
     try {
-      const response = await fetch('http://52.173.30.244:9000/api/nodes', {
+      const response = await fetch('https://52.173.30.244:9000/api/nodes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ const Flow = ({ handleNodeEdit, setSelectedNode }) => {
   const addNode = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://52.173.30.244:9000/api/nodes', {
+      const response = await fetch('https://52.173.30.244:9000/api/nodes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -209,7 +209,7 @@ const Flow = ({ handleNodeEdit, setSelectedNode }) => {
   //node change in db
   const onNodeDragStop = async (event, node) => {
     try {
-      await fetch(`http://52.173.30.244:9000/api/nodes/${node.id}/coords`, {
+      await fetch(`https://52.173.30.244:9000/api/nodes/${node.id}/coords`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -231,7 +231,7 @@ const Flow = ({ handleNodeEdit, setSelectedNode }) => {
 
   const onConnect = useCallback(async (params) => {
     try {
-      const response = await fetch('http://52.173.30.244:9000/api/edges', {
+      const response = await fetch('https://52.173.30.244:9000/api/edges', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -292,12 +292,12 @@ const Flow = ({ handleNodeEdit, setSelectedNode }) => {
 
   const onNodesDelete = async (event) => {
     try {
-      const response1 = await fetch(`http://52.173.30.244:9000/api/edges/source/${event[0].id}`, {
+      const response1 = await fetch(`https://52.173.30.244:9000/api/edges/source/${event[0].id}`, {
         method: 'DELETE',
       });
 
       if (response1.ok) {
-        const response2 = await fetch(`http://52.173.30.244:9000/api/nodes/${event[0].id}`, {
+        const response2 = await fetch(`https://52.173.30.244:9000/api/nodes/${event[0].id}`, {
           method: 'DELETE',
         });
         if (response2.ok) {
@@ -311,7 +311,7 @@ const Flow = ({ handleNodeEdit, setSelectedNode }) => {
 
   const onEdgesDelete = async (event) => {
     try {
-      const response = await fetch(`http://52.173.30.244:9000/api/edges/${event[0].id}`, {
+      const response = await fetch(`https://52.173.30.244:9000/api/edges/${event[0].id}`, {
         method: 'DELETE',
       });
 

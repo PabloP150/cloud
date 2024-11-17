@@ -53,7 +53,7 @@ function BlockDiagram() {
     const data = Object.fromEntries(formData.entries());
     try {
       setFlowKey(flowKey + 1);
-      const response1 = await fetch(`http://52.173.30.244:9000/api/nodes/${selectedNode.nid}`, {
+      const response1 = await fetch(`https://52.173.30.244:9000/api/nodes/${selectedNode.nid}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ function BlockDiagram() {
           date: formatDate(data.date)
         }),
       });
-      const response2 = await fetch(`http://52.173.30.244:9000/api/tasks/nodes/${selectedNode.nid}`, {
+      const response2 = await fetch(`https://52.173.30.244:9000/api/tasks/nodes/${selectedNode.nid}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

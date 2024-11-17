@@ -15,7 +15,7 @@ const SeleccionarPersona = ({ tid }) => {
       if (!selectedGroupId) return;
 
       try {
-        const response = await fetch(`http://52.173.30.244:9000/api/groups/${selectedGroupId}/members`);
+        const response = await fetch(`https://52.173.30.244:9000/api/groups/${selectedGroupId}/members`);
         if (response.ok) {
           const data = await response.json();
           setMembers(data.members);
@@ -35,7 +35,7 @@ const SeleccionarPersona = ({ tid }) => {
       if (!selectedGroupId || members.length === 0) return;
 
       try {
-        const response = await fetch(`http://52.173.30.244:9000/api/usertask?tid=${tid}`);
+        const response = await fetch(`https://52.173.30.244:9000/api/usertask?tid=${tid}`);
         
         if (response.ok) {
           const data = await response.json();
@@ -86,7 +86,7 @@ const SeleccionarPersona = ({ tid }) => {
 
   const addUserToTask = async (uid, tid) => {
     try {
-      const response = await fetch('http://52.173.30.244:9000/api/usertask', {
+      const response = await fetch('https://52.173.30.244:9000/api/usertask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ const SeleccionarPersona = ({ tid }) => {
 
   const removeUserFromTask = async (uid, tid) => {
     try {
-      const response = await fetch(`http://52.173.30.244:9000/api/usertask?uid=${uid}&tid=${tid}`, {
+      const response = await fetch(`https://52.173.30.244:9000/api/usertask?uid=${uid}&tid=${tid}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
