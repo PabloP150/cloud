@@ -31,7 +31,7 @@ function GroupsView() {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:9000/api/groups/user-groups?uid=${userId}`);
+      const response = await fetch(`http://52.173.30.244:9000/api/groups/user-groups?uid=${userId}`);
       if (response.ok) {
         const data = await response.json();
         setGroups(data.groups);
@@ -69,7 +69,7 @@ function GroupsView() {
     setSelectedGroup(group);
     localStorage.setItem('selectedGroupId', group.gid);
     localStorage.setItem('selectedGroupName', group.name);
-    fetch(`http://localhost:9000/api/groups/${group.gid}/members`)
+    fetch(`http://52.173.30.244:9000/api/groups/${group.gid}/members`)
       .then(response => response.json())
       .then(data => setMembers(data.members))
       .catch(error => console.error('Error loading members:', error));
@@ -82,7 +82,7 @@ function GroupsView() {
       return;
     }
     try {
-      const response = await fetch('http://localhost:9000/api/groups/group', {
+      const response = await fetch('http://52.173.30.244:9000/api/groups/group', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ function GroupsView() {
     }
     try {
       console.log('Username:', newUsername);
-      const userResponse = await fetch(`http://localhost:9000/api/users/getuid?username=${newUsername}`);
+      const userResponse = await fetch(`http://52.173.30.244:9000/api/users/getuid?username=${newUsername}`);
       if (!userResponse.ok) {
         const errorData = await userResponse.json();
         console.error(errorData.error);
@@ -126,7 +126,7 @@ function GroupsView() {
         return;
       }
 
-      const response = await fetch('http://localhost:9000/api/groups/join', {
+      const response = await fetch('http://52.173.30.244:9000/api/groups/join', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -163,7 +163,7 @@ function GroupsView() {
     try {
       console.log('Username to delete:', usernameToDelete);
 
-      const userResponse = await fetch(`http://localhost:9000/api/users/getuid?username=${usernameToDelete}`);
+      const userResponse = await fetch(`http://52.173.30.244:9000/api/users/getuid?username=${usernameToDelete}`);
       if (!userResponse.ok) {
         const errorData = await userResponse.json();
         console.error(errorData.error);
@@ -175,7 +175,7 @@ function GroupsView() {
 
       console.log('UID obtained for user:', uid, selectedGroup.gid);
 
-      const response = await fetch(`http://localhost:9000/api/groups/remove-member`, {
+      const response = await fetch(`http://52.173.30.244:9000/api/groups/remove-member`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ function GroupsView() {
       if (response.ok) {
         console.log(`User ${usernameToDelete} deleted successfully`);
         // Actualiza la lista de miembros
-        fetch(`http://localhost:9000/api/groups/${selectedGroup.gid}/members`)
+        fetch(`http://52.173.30.244:9000/api/groups/${selectedGroup.gid}/members`)
           .then(response => response.json())
           .then(data => setMembers(data.members))
           .catch(error => console.error('Error loading members:', error));
@@ -211,7 +211,7 @@ function GroupsView() {
     }
 
     try {
-      const response = await fetch(`http://localhost:9000/api/groups/leave`, {
+      const response = await fetch(`http://52.173.30.244:9000/api/groups/leave`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -221,7 +221,7 @@ function GroupsView() {
 
       if (response.ok) {
         console.log('User left group successfully');
-        fetch(`http://localhost:9000/api/groups/${selectedGroup.gid}/members`)
+        fetch(`http://52.173.30.244:9000/api/groups/${selectedGroup.gid}/members`)
           .then(response => response.json())
           .then(data => setMembers(data.members))
           .catch(error => console.error('Error loading members:', error));
@@ -243,7 +243,7 @@ function GroupsView() {
 
     try {
       // Primero, elimina al grupo de la tabla UserGroup
-      const userGroupResponse = await fetch(`http://localhost:9000/api/groups/leave`, {
+      const userGroupResponse = await fetch(`http://52.173.30.244:9000/api/groups/leave`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -258,7 +258,7 @@ function GroupsView() {
       }
 
       // Luego, elimina el grupo de la tabla principal
-      const groupResponse = await fetch(`http://localhost:9000/api/groups/delete`, {
+      const groupResponse = await fetch(`http://52.173.30.244:9000/api/groups/delete`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

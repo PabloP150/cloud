@@ -8,13 +8,13 @@ const bcrypt = require('bcrypt');
 
 userRoute.post('/', async (req, res) => {
     const uid = uuidv4();
-    const { username, password, imageUrl } = req.body;
+    const { username, password, imageUrl, email } = req.body;
 
     try {
         // Encriptar la contraseña
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await UserModel.addUser({ uid, username, password: hashedPassword, imageUrl });
+        await UserModel.addUser({ uid, username, password: hashedPassword, imageUrl, email });
 
         // Crear un grupo individual para el usuario
         const gid = uuidv4();

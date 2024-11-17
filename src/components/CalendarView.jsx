@@ -32,7 +32,7 @@ function CalendarView() {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch(`http://localhost:9000/api/nodes/tasks/${selectedGroupId}`);
+        const response = await fetch(`http://52.173.30.244:9000/api/nodes/tasks/${selectedGroupId}`);
         if (response.ok) {
           const data = await response.json();
           const tasks = data.data.map((task) => ({

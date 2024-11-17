@@ -3,16 +3,17 @@ const execQuery = require('../helpers/execQuery');
 const TYPES = require('tedious').TYPES;
 
 const addUser = (userData) => {
-    const { uid, username, password, imageUrl } = userData;
+    const { uid, username, password, imageUrl, email } = userData;
     const query = `
-    INSERT INTO [dbo].[Users] (uid, username, password, imageUrl) 
-    VALUES(@uid, @username, @password, @imageUrl)
+    INSERT INTO [dbo].[Users] (uid, username, password, imageUrl, email) 
+    VALUES(@uid, @username, @password, @imageUrl, @email)
     `;
     const params = [
         { name: 'uid', type: TYPES.UniqueIdentifier, value: uid },
         { name: 'username', type: TYPES.VarChar, value: username },
         { name: 'password', type: TYPES.Char, value: password },
         { name: 'imageUrl', type: TYPES.VarChar, value: imageUrl },
+        { name: 'email', type: TYPES.VarChar, value: email },
     ];
     return execQuery.execWriteCommand(query, params);
 };

@@ -29,6 +29,7 @@ const theme = createTheme({
 function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
@@ -75,12 +76,12 @@ function Register() {
       // Subir imagen a Azure
       const imageUrl = await uploadImageToAzure(image);
 
-      const response = await fetch('http://localhost:9000/api/users', {
+      const response = await fetch('http://52.173.30.244:9000/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password, imageUrl }), // Envía la URL de la imagen
+        body: JSON.stringify({ username, password, imageUrl, email }), // Envía la URL de la imagen y el correo electrónico
       });
 
       if (response.ok) {
@@ -141,6 +142,17 @@ function Register() {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <input
                 accept="image/*"
